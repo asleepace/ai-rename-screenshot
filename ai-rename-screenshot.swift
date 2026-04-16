@@ -98,7 +98,7 @@ func hasNotProcessed(_ path: String) -> Bool {
 func getSecret(_ name: String) -> String? {
     let task = Process()
     task.executableURL = URL(fileURLWithPath: "/usr/bin/security")
-    task.arguments = ["find-generic-password", "-a", NSUserName(), "-s", "kk.\(name)", "-w"]
+    task.arguments = ["find-generic-password", "-a", NSUserName(), "-s", "\(name)", "-w"]
     let pipe = Pipe()
     task.standardOutput = pipe
     task.standardError = Pipe()

@@ -75,6 +75,34 @@ tail -f /tmp/ai-rename-screenshot.log
 launchctl list | grep asleepace
 ```
 
+## Haiku 4.5 pricing
+
+$1/MTok input, $5/MTok output
+
+## Token breakdown per screenshot
+
+**Image input tokens:** Anthropic's formula is `tokens ≈ (width × height) / 750`. The script resizes to max 1024px on the longest side. For a typical 16:10 macOS screenshot, that's ~1024×640 → **~875 tokens**. Square-ish screenshots hit the worst case at 1024×1024 → **~1,400 tokens**.
+
+**Text input tokens:**
+- System/user prompt: ~25 tokens
+- Fixed API overhead (message wrapper, role tokens): ~10 tokens
+- **Total text: ~35 tokens**
+
+**Output tokens:** `max_tokens: 64`, but filenames are 2–6 words hyphenated → actual output ~**8–15 tokens**.
+
+## Cost math
+
+| Component | Tokens | Cost |
+|---|---|---|
+| Image (typical 1024×640) | ~875 | $0.000875 |
+| Image (worst case 1024×1024) | ~1,400 | $0.0014 |
+| Text input | ~35 | $0.000035 |
+| Output (~12 tokens) | 12 | $0.00006 |
+
+**Per screenshot: ~$0.001 (one-tenth of a cent)**
+
+At 50 screenshots/day → **~$0.05/day, ~$1.50/month**. You'd need to take ~1,000 screenshots to spend a dollar.
+
 ## Full Tutorial
 
 For a detailed walkthrough see the full blog post at https://asleepace.com/blog/how-to-automate-screenshot-naming-macos
